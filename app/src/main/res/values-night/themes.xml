@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MobilalkalmazásFejlesztés" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primaryColor_dark</item>
+        <item name="colorButtonNormal">@color/primaryColor_dark</item>
+        <item name="android:textColor">@color/text_dark</item>
+    </style>
+
+    <style name="Theme.MobilalkalmazásFejlesztés" parent="Base.Theme.MobilalkalmazásFejlesztés" />
+
+</resources>

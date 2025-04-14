@@ -1,0 +1,40 @@
+[versions]
+agp = "8.9.0"
+cardview = "1.0.0"
+firebaseBom = "33.12.0"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+espressoCore = "3.5.1"
+appcompat = "1.6.1"
+lombok = "1.18.36"
+material = "1.10.0"
+activity = "1.8.0"
+constraintlayout = "2.1.4"
+firebaseAuth = "23.2.0"
+firebaseDatabase = "21.0.0"
+glide = "4.16.0"
+
+[libraries]
+cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
+com-google-firebase-firebase-auth = { module = "com.google.firebase:firebase-auth" }
+com-google-firebase-firebase-database = { module = "com.google.firebase:firebase-database" }
+compiler = { module = "com.github.bumptech.glide:compiler" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-auth = { module = "com.google.firebase:firebase-auth" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-storage = { module = "com.google.firebase:firebase-storage" }
+glide = { group = "com.github.bumptech.glide", name = "glide"}
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+google-firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+

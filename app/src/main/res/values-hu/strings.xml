@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fake Twitter</string>
+    <string name="bejelentkez_s">Bejelentkezés</string>
+    <string name="name">Név</string>
+    <string name="regisz">Regisztráció</string>
+    <string name="email_c_m">Email cím</string>
+    <string name="jelsz">Jelszó</string>
+    <string name="email_required">Az e-mail szükséges</string>
+    <string name="username_required">Felhasználónév szükséges</string>
+    <string name="password_required">Jelszó szükséges</string>
+    <string name="password_length">A jelszó minimum 6 karakter</string>
+    <string name="passwords_not_match">A jelszavak nem egyeznek</string>
+    <string name="registration_successful">Sikeres regisztráció!</string>
+    <string name="registration_failed">Sikertelen regisztráció: %1$s</string>
+    <string name="complete_your_profile">Hozd létre a profilodat</string>
+    <string name="complete_registration">Regisztráció befejezése</string>
+    <string name="tell_us_a_bit_about_yourself_to_get_started">Add meg az adataidat a regisztráció befejezéséhez</string>
+    <string name="profile_photo">Profilkép</string>
+    <string name="edit_profile_photo">Profilkép szerkesztése</string>
+    <string name="display_name">Becenév</string>
+    <string name="username">Felhasználónév</string>
+    <string name="bio_optional">Leírás rólad (opcionális)</string>
+    <string name="location_optional">Lokáció (opcionális)</string>
+    <string name="date_of_birth">Születési dátum</string>
+    <string name="back">Vissza</string>
+    <string name="profile">Profil</string>
+    <string name="save">Mentés</string>
+    <string name="bio">Leírás</string>
+    <string name="cover_photo">Profildekoráció</string>
+    <string name="edit_cover_photo">Profildekoráció szerkesztése</string>
+    <string name="location">Lokáció</string>
+    <string name="website">Honlap</string>
+    <string name="new_user">Új fiók létrehozása</string>
+    <string name="register">Regisztráció</string>
+</resources>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "422802537081",
+    "project_id": "mobilapp-7c1e5",
+    "storage_bucket": "mobilapp-7c1e5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:422802537081:android:3afa196098ee57b321f2a8",
+        "android_client_info": {
+          "package_name": "com.app.fwitter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkd5bMZ3frFvxNl39FayzWIfT3afNlJ4s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

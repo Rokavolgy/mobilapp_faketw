@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Totally Legit Twitter</string>
+    <string name="bejelentkez_s">Login</string>
+    <string name="name">Name</string>
+    <string name="regisz">Registration</string>
+    <string name="email_c_m">Email address</string>
+    <string name="jelsz">Password</string>
+    <string name="email_required">Email is required</string>
+    <string name="username_required">Username is required</string>
+    <string name="password_required">Password is required</string>
+    <string name="password_length">Password must be at least 6 characters</string>
+    <string name="passwords_not_match">Passwords do not match</string>
+    <string name="registration_successful">Successful registration</string>
+    <string name="registration_failed">Unsuccessful registration: %1$s</string>
+    <string name="complete_your_profile">Complete Your Profile</string>
+    <string name="complete_registration">Complete Registration</string>
+    <string name="tell_us_a_bit_about_yourself_to_get_started">Tell us a bit about yourself to get started</string>
+    <string name="profile_photo">Profile Photo</string>
+    <string name="edit_profile_photo">Edit Profile Photo</string>
+    <string name="display_name">Display Name</string>
+    <string name="username">Username</string>
+    <string name="bio_optional">Bio (Optional)</string>
+    <string name="location_optional">Location (Optional)</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="back">Back</string>
+    <string name="profile">Profile</string>
+    <string name="save">Save</string>
+    <string name="bio">Bio</string>
+    <string name="cover_photo">Cover Photo</string>
+    <string name="edit_cover_photo">Edit Cover Photo</string>
+    <string name="location">Location</string>
+    <string name="website">Website</string>
+    <string name="new_user">Create new account</string>
+    <string name="register">Register</string>
+</resources>
