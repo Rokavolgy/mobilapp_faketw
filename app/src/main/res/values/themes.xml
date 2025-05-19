@@ -7,4 +7,7 @@
     </style>
 
     <style name="Theme.MobilalkalmazásFejlesztés" parent="Base.Theme.MobilalkalmazásFejlesztés" />
+    <style name="noRipple" parent="Theme.MaterialComponents">
+        <item name="rippleColor">@android:color/transparent</item>
+    </style>
 </resources>

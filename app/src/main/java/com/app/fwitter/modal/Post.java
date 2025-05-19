@@ -1,5 +1,9 @@
 package com.app.fwitter.modal;
 
+import android.util.Log;
+
+import com.app.fwitter.task.ImageUploader;
+
 import java.util.Date;
 import java.util.List;
 

@@ -16,6 +16,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.app.fwitter.modal.CurrentUser;
+import com.app.fwitter.modal.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -69,6 +71,14 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login() {
 
+        if(mAuth.getCurrentUser() != null)
+        {
+            mAuth.signOut();
+        }
+        else
+        {
+            Log.i("oops","oops");
+        }
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString();
 
@@ -95,8 +105,8 @@ public class LoginActivity extends AppCompatActivity {
 
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            //Toast.makeText(LoginActivity.this, "Authentication successful.",
-                            //        Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Authentication successful.",
+                                    Toast.LENGTH_SHORT).show();
                             assert user != null;
                             checkUserProfileExists(user.getUid());
                         } else {
@@ -116,7 +126,15 @@ public class LoginActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists() && documentSnapshot.contains("displayName")) {
-                        Intent intent = new Intent(LoginActivity.this, ProfileEditActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, FeedActivity.class);
+                        User user = documentSnapshot.toObject(User.class);
+                            CurrentUser.getInstance().setCurrentUser(user);
+                        com.app.fwitter.notification.PostNotificationManager.initialize(this.getApplication());
+                        if(user == null)
+                        {
+                            Log.d("oh no","ohn o");
+                            return;
+                        }
                         intent.putExtra("SOME_KEY", 34);
                         startActivity(intent);
                         finish();

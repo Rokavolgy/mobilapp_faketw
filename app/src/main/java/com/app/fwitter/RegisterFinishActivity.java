@@ -2,7 +2,9 @@ package com.app.fwitter;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -14,14 +16,17 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.app.fwitter.modal.CurrentUser;
 import com.app.fwitter.modal.User;
+import com.app.fwitter.task.ImageUploader;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
-import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterFinishActivity extends AppCompatActivity {
 
@@ -32,6 +37,7 @@ public class RegisterFinishActivity extends AppCompatActivity {
     private TextInputEditText dobEditText;
     private ImageView profileImageView;
     private Button completeRegistrationButton;
+    private Uri selectedImageUri = null;
 
     private ActivityResultLauncher<String> imagePickerLauncher;
 
@@ -40,7 +46,6 @@ public class RegisterFinishActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.finalize_register);
         initializeViews();
-        //setupImagePicker();
         if (savedInstanceState != null) {
             restoreUIState(savedInstanceState);
         }
@@ -51,6 +56,7 @@ public class RegisterFinishActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -74,6 +80,7 @@ public class RegisterFinishActivity extends AppCompatActivity {
         locationEditText.setText(location);
         dobEditText.setText(dob);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -95,8 +102,9 @@ public class RegisterFinishActivity extends AppCompatActivity {
         bioEditText = findViewById(R.id.bioEditText);
         locationEditText = findViewById(R.id.locationEditText);
         dobEditText = findViewById(R.id.dobEditText);
-        profileImageView = findViewById(R.id.profileImageView);
+        profileImageView = findViewById(R.id.profileView);
         completeRegistrationButton = findViewById(R.id.completeRegistrationButton);
+        setupImagePicker();
 
         ImageButton editProfilePhotoButton = findViewById(R.id.editProfilePhotoButton);
         editProfilePhotoButton.setOnClickListener(v -> openImagePicker());
@@ -107,6 +115,7 @@ public class RegisterFinishActivity extends AppCompatActivity {
                 new ActivityResultContracts.GetContent(),
                 uri -> {
                     if (uri != null) {
+                        selectedImageUri = uri;
                         profileImageView.setImageURI(uri);
                     }
                 }
@@ -148,7 +157,7 @@ public class RegisterFinishActivity extends AppCompatActivity {
         if (username.isEmpty()) {
             usernameEditText.setError("Username cannot be empty");
             isValid = false;
-        } else if (!isValidUsername(username)) {
+        } else if (!User.isValidUsername(username)) {
             usernameEditText.setError("Username can only contain letters, numbers, and underscores");
             isValid = false;
         }
@@ -162,10 +171,6 @@ public class RegisterFinishActivity extends AppCompatActivity {
         return isValid;
     }
 
-    private boolean isValidUsername(String username) {
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9_]+$");
-        return pattern.matcher(username).matches();
-    }
 
     private void saveUserProfile() {
         String displayName = displayNameEditText.getText().toString().trim();
@@ -175,28 +180,27 @@ public class RegisterFinishActivity extends AppCompatActivity {
         String dateOfBirth = dobEditText.getText().toString().trim();
 
         //további ellenörzések
-        if(displayName.length() < 4)
-        {
+        if (!User.isValidUsername(username)) {
+            usernameEditText.setError("Username can only contain letters, numbers, and underscores and must be minimum 4 characters long");
+            return;
+        }
+        if (displayName.length() < 4) {
             displayNameEditText.setError("Display name must be at least 4 characters");
             return;
         }
-        if(username.length() < 4)
-        {
+        if (username.length() < 4) {
             usernameEditText.setError("Username must be at least 4 characters");
             return;
         }
-        if(bio.length() > 160)
-        {
+        if (bio.length() > 160) {
             bioEditText.setError("Bio must be less than 160 characters");
             return;
         }
-        if(location.length() > 30)
-        {
+        if (location.length() > 30) {
             locationEditText.setError("Location must be less than 30 characters");
             return;
         }
-        if(dateOfBirth.length() > 10)
-        {
+        if (dateOfBirth.length() > 10) {
             dobEditText.setError("Date of birth must be in dd/mm/yyyy format");
             return;
         }
@@ -216,45 +220,102 @@ public class RegisterFinishActivity extends AppCompatActivity {
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             String userId = mAuth.getCurrentUser().getUid();
             String email = mAuth.getCurrentUser().getEmail();
-        User newuser = new User();
-        newuser.setBio(bio);
-        newuser.setUsername(username);
-        newuser.setDisplayName(displayName);
-        newuser.setLocation(location);
-        newuser.setDateOfBirth(dobTimestamp);
+
+
+            User newuser = new User();
+            newuser.setBio(bio);
+            newuser.setUsername(username);
+            newuser.setDisplayName(displayName);
+            newuser.setLocation(location);
+            newuser.setDateOfBirth(dobTimestamp);
             newuser.setCreatedAt(Timestamp.now());
+
+            completeRegistrationButton.setEnabled(false);
+            completeRegistrationButton.setText("Creating account...");
+
+            if(selectedImageUri != null) {
+                uploadProfilePicture(userId,newuser);
+            } else {
+                saveUserToFirestore(newuser,"");
+            }
+
 
             //Log.d("RegisterFinishActivity", "Data being sent: " + newuser.toString());
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("userdata")
-                .document(userId) // Use username as document ID
-                .set(newuser)
-                .addOnSuccessListener(aVoid -> {
-                    onRegistrationSuccess();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(RegisterFinishActivity.this, "Sorry, unsuccessful registration please try again." + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+
         } catch (Exception e) {
             Toast.makeText(RegisterFinishActivity.this, "Sorry, the date is invalid. Please reenter and make sure format is DD/MM/YYYY" + e.getMessage(), Toast.LENGTH_SHORT).show();
-            return;
         }
 
     }
+    private void uploadProfilePicture(String userId, User user) {
+        completeRegistrationButton.setText("Uploading image...");
+
+        ImageUploader imageUploader = new ImageUploader();
+        imageUploader.uploadImageFromUri(this, selectedImageUri, new ImageUploader.ImageUploadListener() {
+            @Override
+            public void onUploadSuccess(String imageUrl) {
+                user.setProfileImageUrl(imageUrl);
+                saveUserToFirestore(user,imageUrl);
+                imageUploader.cleanup();
+            }
+
+            @Override
+            public void onUploadFailure(String errorMessage) {
+                Toast.makeText(RegisterFinishActivity.this,
+                        "Failed to upload profile picture: " + errorMessage,
+                        Toast.LENGTH_SHORT).show();
+                completeRegistrationButton.setEnabled(true);
+                completeRegistrationButton.setText("Complete Registration");
+                imageUploader.cleanup();
+            }
+        });
+    }
+
+    private void saveUserToFirestore(User user,String imageUrl) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String userId = mAuth.getCurrentUser().getUid();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("userdata")
+                .document(userId)
+                .set(user)
+                .addOnSuccessListener(aVoid -> {
+                    fixImage(user,imageUrl);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(RegisterFinishActivity.this,
+                            "Registration failed: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                    completeRegistrationButton.setEnabled(true);
+                    completeRegistrationButton.setText("Complete Registration");
+                });
+
+    }
+
+    private void fixImage(User user, String imageUrl) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        String userId = mAuth.getCurrentUser().getUid();
+            Map<String, Object> userUpdates = new HashMap<>();
+            userUpdates.put("profileImageUrl", imageUrl);
+            db.collection("userdata").document(userId)
+                    .update(userUpdates)
+                    .addOnSuccessListener(aVoid -> {
+                        onRegistrationSuccess();
+                        Log.d("RegisterFinishActivity", "User profile updated successfully");
+                    })
+                    .addOnFailureListener(e -> {
+                    });
+
+        CurrentUser.getInstance().setCurrentUser(user);
+    }
 
     private void onRegistrationSuccess() {
-        Toast.makeText(this, "Registration completed successfully!", Toast.LENGTH_SHORT).show();
-
+        //Toast.makeText(this, "Registration completed successfully!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(RegisterFinishActivity.this, ProfileEditActivity.class);
         startActivity(intent);
         finish();
     }
 
-    private void checkUsernameAvailability(String username) {
-
-    }
-
-    private void uploadProfilePicture() {
-    }
 }

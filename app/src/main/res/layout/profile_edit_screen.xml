@@ -40,50 +40,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
             android:text="@string/save"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@color/black"
             android:textStyle="bold"
-            android:visibility="gone" />
+            android:visibility="visible"
+            tools:layout_editor_absoluteX="315dp"
+            tools:layout_editor_absoluteY="8dp" />
     </androidx.appcompat.widget.Toolbar>
-
-    <FrameLayout
-        android:id="@+id/profilePhotoContainer"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="16dp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.5">
-
-        <ImageView
-            android:id="@+id/profileImageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:contentDescription="@string/profile_photo"
-            android:padding="2dp"
-            android:scaleType="centerCrop"
-            android:src="@android:drawable/ic_menu_gallery" />
-
-        <ImageButton
-            android:id="@+id/editProfilePhotoButton"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="bottom|end"
-            android:background="@android:drawable/ic_menu_edit"
-            android:contentDescription="@string/edit_profile_photo" />
-    </FrameLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="61dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editProfileToolbar">
+        app:layout_constraintTop_toBottomOf="@+id/editProfileToolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,6 +92,37 @@
 
             </FrameLayout>
 
+            <FrameLayout
+                android:id="@+id/profilePhotoContainer"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginEnd="295dp"
+                android:layout_marginRight="295dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/profileView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:contentDescription="@string/profile_photo"
+                    android:padding="2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@android:drawable/ic_menu_gallery" />
+
+                <ImageButton
+                    android:id="@+id/editProfilePhotoButton"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="bottom|end"
+                    android:background="@android:drawable/ic_menu_edit"
+                    android:contentDescription="@string/edit_profile_photo" />
+            </FrameLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -140,8 +143,8 @@
                         android:id="@+id/displayNameEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
+                        android:clickable="true"
+                        android:focusable="auto"
                         android:inputType="textPersonName"
                         android:maxLength="50" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -180,8 +183,8 @@
                         android:id="@+id/bioEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
+                        android:clickable="true"
+                        android:focusable="auto"
                         android:gravity="top"
                         android:inputType="textMultiLine"
                         android:lines="4"
@@ -202,8 +205,8 @@
                         android:id="@+id/locationEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
+                        android:clickable="true"
+                        android:focusable="auto"
                         android:inputType="text"
                         android:maxLength="30" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -222,8 +225,8 @@
                         android:id="@+id/websiteEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
+                        android:clickable="true"
+                        android:focusable="auto"
                         android:inputType="textUri"
                         android:maxLength="100" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -242,10 +245,25 @@
                         android:id="@+id/dobEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
+                        android:clickable="true"
+                        android:focusable="auto"
                         android:inputType="none" />
+
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/delete_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/button_danger"
+                    android:insetTop="8dp"
+                    android:text="Delete profile" />
 
             </LinearLayout>
 

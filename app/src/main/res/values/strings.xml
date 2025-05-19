@@ -32,4 +32,13 @@
     <string name="website">Website</string>
     <string name="new_user">Create new account</string>
     <string name="register">Register</string>
+    <string name="profile_image">Profile picture</string>
+    <string name="like_post">Like post</string>
+    <string name="comment_on_post">Comment</string>
+    <string name="share_post">Share</string>
+    <string name="save_post">Bookmark\n</string>
+    <string name="whats_on_your_mind">What\'s on your mind?</string>
+    <string name="add_image">Add image</string>
+    <string name="post">Post</string>
+    <string name="create_post">Create post</string>
 </resources>

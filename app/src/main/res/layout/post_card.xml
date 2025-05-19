@@ -1,119 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="416dp"
-    android:layout_height="200dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    style="@style/noRipple">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="416dp"
-        android:layout_height="200dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        style="@style/noRipple">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
+            android:id="@+id/profileView"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/profile_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/usernameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/profileView"
+            app:layout_constraintTop_toTopOf="@+id/profileView"
+            tools:text="Username" />
+
+        <TextView
+            android:id="@+id/timestampTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="@+id/usernameTextView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/profileView"
+            app:layout_constraintTop_toBottomOf="@+id/usernameTextView"
+            tools:text="2 hours ago" />
+
+        <TextView
+            android:id="@+id/postContentTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileView"
+            tools:text="Post content goes here" />
+
+        <ImageView
+            android:id="@+id/postImageView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="Image"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/postContentTextView"
+            tools:src="@tools:sample/backgrounds/scenic"
+            tools:visibility="visible" />
+
+
+        <LinearLayout
+            android:id="@+id/actionsLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/postImageView">
+
+
+            <ImageButton
+                android:id="@+id/likeButton"
+                android:layout_width="46dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:background="@null"
+                android:contentDescription="@string/like_post"
+                android:padding="8dp"
+                android:src="@drawable/heart" />
 
             <TextView
-                android:id="@+id/textView2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="82dp" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="81dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="228dp"
-                android:text="TextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="77dp"
-                android:layout_height="52dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="16dp"
-                android:contentDescription="TODlO"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="39dp"
-                android:layout_height="48dp"
-                android:text="Button"
-                tools:layout_editor_absoluteX="4dp"
-                tools:layout_editor_absoluteY="149dp" />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="35dp"
-                android:layout_height="46dp"
-                android:text="Button"
-                tools:layout_editor_absoluteX="94dp"
-                tools:layout_editor_absoluteY="151dp" />
-
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="34dp"
-                android:layout_height="49dp"
-                android:text="Button"
-                tools:layout_editor_absoluteX="175dp"
-                tools:layout_editor_absoluteY="151dp" />
-
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="36dp"
-                android:layout_height="48dp"
-                android:text="Button"
-                tools:layout_editor_absoluteX="252dp"
-                tools:layout_editor_absoluteY="152dp" />
-
-            <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/likeCountTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                tools:layout_editor_absoluteX="40dp"
-                tools:layout_editor_absoluteY="161dp" />
+                android:layout_gravity="center_vertical"
+                tools:text="42" />
 
-            <TextView
-                android:id="@+id/textView4"
+            <Space
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                tools:layout_editor_absoluteX="128dp"
-                tools:layout_editor_absoluteY="161dp" />
+                android:layout_weight="1" />
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
+            <ImageButton
+                android:id="@+id/deleteButton"
+                android:layout_width="46dp"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                tools:layout_editor_absoluteX="208dp"
-                tools:layout_editor_absoluteY="162dp" />
+                android:layout_weight="0"
+                android:background="@null"
+                android:contentDescription="@string/save_post"
+                android:padding="8dp"
+                android:src="@drawable/trash_2" />
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView"
-                tools:layout_editor_absoluteX="285dp"
-                tools:layout_editor_absoluteY="163dp" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
