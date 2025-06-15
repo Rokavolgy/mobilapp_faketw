@@ -36,6 +36,8 @@ public class PostNotificationManager implements FeedPostsListener.PostsUpdateLis
     private boolean isListening = false;
     private FirebaseAuth.AuthStateListener authStateListener;
 
+    private boolean firstNot = true;
+
     private PostNotificationManager(Context context) {
         this.context = context.getApplicationContext();
         this.processedPostIds = new HashSet<>();
@@ -112,11 +114,25 @@ public class PostNotificationManager implements FeedPostsListener.PostsUpdateLis
     public void onPostsUpdated(List<Post> updatedPosts) {
         if (currentUser == null) return;
 
+        if (firstNot) {
+            for(Post post : updatedPosts) {
+                if (!processedPostIds.contains(post.getId()) && !post.getUserId().equals(currentUser.getUid())) {
+                    processedPostIds.add(post.getId());
+                }
+            }
+            firstNot = false;
+            return;
+        }
+
+
+        boolean newest = true;
         for (Post post : updatedPosts) {
             if (!processedPostIds.contains(post.getId()) && !post.getUserId().equals(currentUser.getUid())) {
                 processedPostIds.add(post.getId());
-                showNotification(post);
-                break;
+                if(newest) {
+                    showNotification(post);
+                    newest = false;
+                }
             }
         }
     }

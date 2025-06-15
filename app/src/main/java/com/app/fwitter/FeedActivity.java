@@ -28,6 +28,7 @@ import com.app.fwitter.controller.FeedPostsListener;
 import com.app.fwitter.controller.PostController;
 import com.app.fwitter.modal.CurrentUser;
 import com.app.fwitter.modal.Post;
+import com.app.fwitter.modal.PostDB;
 import com.app.fwitter.modal.User;
 import com.app.fwitter.notification.PostNotificationManager;
 import com.app.fwitter.services.DailyFeedRefreshManager;
@@ -39,9 +40,12 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.ServerTimestamp;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,6 +81,8 @@ public class FeedActivity extends AppCompatActivity{
     private Uri selectedImageUri;
     private ImageView imagePreview;
 
+
+    //not used
     private void fetchPostsFromFirestore() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("posts")
@@ -343,7 +349,6 @@ private PostAdapter.PostInteractionListener createPostInteractionListener() {
     }
 
     private void showPostCreationDialog() {
-        DailyFeedRefreshManager.testNotificationNow(this);
         BottomSheetDialog dialog = new BottomSheetDialog(this);
         View sheetView = getLayoutInflater().inflate(R.layout.new_post_bottom_sheet, null);
         dialog.setContentView(sheetView);
@@ -466,24 +471,22 @@ private PostAdapter.PostInteractionListener createPostInteractionListener() {
     }
     private void createNewPost(String content, ArrayList<String> mediaUrls) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        Post newPost = new Post();
+        PostDB newPost = new PostDB();
         newPost.setId(java.util.UUID.randomUUID().toString());
         newPost.setUserId(auth.getUid());
-        newPost.setUserName(CurrentUser.getInstance().getCurrentUser().getDisplayName());
-        newPost.setUserProfilePicUrl("");
+        newPost.setUserName("");
         newPost.setContent(content);
         newPost.setMediaUrls(mediaUrls);
         newPost.setLikesCount(0);
         newPost.setCommentsCount(0);
-        newPost.setTimestamp(new Date());
-        newPost.setLikedByCurrentUser(false);
+        newPost.setTimestamp(FieldValue.serverTimestamp());
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("posts")
                 .document(newPost.getId())
                 .set(newPost)
                 .addOnSuccessListener(aVoid -> {
-                    onPostCreateSuccess(newPost);
+                    onPostCreateSuccess();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(FeedActivity.this, "Sorry, unsuccessful post creation please try again." + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -522,7 +525,7 @@ private PostAdapter.PostInteractionListener createPostInteractionListener() {
         }
     }
 
-    private void onPostCreateSuccess(Post newPost) {
+    private void onPostCreateSuccess() {
         //posts.add(0, newPost);
         //adapter.notifyItemInserted(0);
         //recyclerView.scrollToPosition(0);
